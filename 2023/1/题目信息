@@ -1,0 +1,14 @@
+1. 二叉树相同子结构判断
+
+在leetcode题目基础上增加了二叉树的build
+https://leetcode.cn/problems/shu-de-zi-jie-gou-lcof/
+
+输入样例
+1.
+
+ABD###E
+ABD
+
+
+2.
+
