@@ -4,17 +4,20 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        long[] dp = new long[n + 1];
-        for (int i = 1; i <= n; ++i) {
-            if (i == 1) {
-                dp[i] = 1;
-            } else if (i == 2) {
-                dp[i] = 2;
-            } else {
-                dp[i] = (dp[i - 1] + dp[i - 2])%999983;
+
+        long pre = 1, next = 2;
+        if (n == 1) System.out.println(1);
+        else if (n == 2) System.out.println(2);
+        else {
+            long temp;
+            for (int k = 3; k <= n; ++k) {
+                temp = (pre + next) % 999983;
+                pre = next;
+                next = temp;
             }
+            System.out.println(next);
         }
-        System.out.println(dp[n]%999983 );
+
         sc.close();
     }
 }
