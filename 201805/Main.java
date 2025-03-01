@@ -1,8 +1,9 @@
 import java.util.*;
+import java.io.*;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(new BufferedInputStream(System.in));
         String[] inputs = sc.nextLine().split("=");
         char[] left = inputs[0].toCharArray();
         char[] right = inputs[1].toCharArray();
@@ -20,7 +21,9 @@ public class Main {
                 }
             } else if (left[i] == '+' || left[i] == '-') {
                 if (i - 1 == 0) {
-                    leftNum += (int) (left[i - 1] - '0');
+                    if (left[i - 1] == 'x') {
+                        leftX++;
+                    } else leftNum += (int) (left[i - 1] - '0');
                 } else if (left[i - 1] == 'x') {
                     leftX += getXNum(left, i - 2);
                 } else {
@@ -33,23 +36,25 @@ public class Main {
             if (i == right.length) {
                 if (i == 1) {
                     rightNum += (int) (right[i - 1] - '0');
-                } else if (left[i - 1] == 'x') {
-                    rightX += getXNum(left, i - 2);
+                } else if (right[i - 1] == 'x') {
+                    rightX += getXNum(right, i - 2);
                 } else {
-                    rightNum += getXNum(left, i - 1);
+                    rightNum += getXNum(right, i - 1);
                 }
             } else if (right[i] == '+' || right[i] == '-') {
                 if (i - 1 == 0) {
-                    rightNum += (int) (right[i - 1] - '0');
+                    if (right[i - 1] == 'x') {
+                        rightX++;
+                    } else rightNum += (int) (right[i - 1] - '0');
                 } else if (right[i - 1] == 'x') {
-                    rightX += getXNum(left, i - 2);
+                    rightX += getXNum(right, i - 2);
                 } else {
-                    rightNum += getXNum(left, i - 1);
+                    rightNum += getXNum(right, i - 1);
                 }
             }
 
         }
-//        System.out.printf("%d %d %d %d", leftNum, leftX, rightNum, rightX);
+        //System.out.printf("%d %d %d %d\n", leftNum, leftX, rightNum, rightX);
         int Xnum = leftX - rightX;
         int num = rightNum - leftNum;
         if (Xnum == 0 && num == 0) {
