@@ -4,33 +4,42 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        int[] arr = new int[n];
+        int[] preorder = new int[n];
         for (int i = 0; i < n; i++) {
-            arr[i] = sc.nextInt();
+            preorder[i] = sc.nextInt();
         }
-
-        Node root = build(arr, 0, arr.length - 1);
+        int[] inorder = preorder.clone();
+        Arrays.sort(inorder);
+        Node root = build(preorder, inorder);
         flatorder(root);
 
     }
 
-    static Node build(int[] arr, int left, int right) {
-        if (left > right || left >= arr.length || right >= arr.length) {
-            return null;
-        } else if (left == right) {
-            return new Node(arr[left]);
-        } else {
-            Node root = new Node(arr[left]);
-            int leftNum = 0;
-            for (int i = left + 1; i <= right; ++i) {
-                if (arr[i] < arr[left]) {
-                    leftNum++;
-                }
-            }
+    static Node build(int[] preorder, int[] inorder) {
+        Map<Integer, Integer> inorderMap = new HashMap<>(inorder.length);
+        for (int i = 0; i < inorder.length; ++i) {
+            inorderMap.put(inorder[i], i);
+        }
 
-            int leftLeft = left + 1, leftRight = left + leftNum, rightLeft = left + leftNum + 1, rightRight = right;
-            root.left = build(arr, leftLeft, leftRight);
-            root.right = build(arr, rightLeft, rightRight);
+
+        return dfs(preorder, inorder, inorderMap, 0, preorder.length - 1, 0, preorder.length - 1);
+    }
+
+    static Node dfs(int[] preorder, int[] inorder, Map<Integer, Integer> inorderMap, int preLeft, int preRight, int inLeft, int inRight) {
+        if (preLeft > preRight) return null;
+        else if (preLeft == preRight) return new Node(preorder[preLeft]);
+        else {
+            int rootVal = preorder[preLeft];
+            //不包括root的节点数
+            //root preleft rootPos
+            //left
+            //int totalNum = preRight - preLeft;
+            int rootPos = inorderMap.get(rootVal);
+            int leftNum = rootPos - inLeft;
+            int rightNum = inRight - rootPos;//inright-rootPos
+            Node root = new Node(rootVal);
+            root.left = dfs(preorder, inorder, inorderMap, preLeft + 1, preLeft + leftNum, rootPos - leftNum, rootPos - 1);
+            root.right = dfs(preorder, inorder, inorderMap, preLeft + leftNum + 1, preRight, rootPos + 1, rootPos + rightNum);
             return root;
         }
     }
