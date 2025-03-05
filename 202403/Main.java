@@ -3,11 +3,26 @@ import java.io.*;
 
 public class Main {
     public static void main(String[] args) {
+        Scanner sc = new Scanner(new BufferedInputStream(System.in));
 
-        int[][] mat1 = {{1,-5}};
-        int[][] mat2 = {{12},{-1}};
+        int m = sc.nextInt(), k = sc.nextInt(), n = sc.nextInt();
+        int[][] mat1 = new int[m][k];
+        int[][] mat2 = new int[k][n];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < k; ++j) {
+                mat1[i][j] = sc.nextInt();
+            }
+        }
+        for (int i = 0; i < k; ++i) {
+            for (int j = 0; j < n; ++j) {
+                mat2[i][j] = sc.nextInt();
+            }
+        }
+
+
         Solution sol = new Solution();
         int[][] ans = sol.multiply(mat1, mat2);
+        System.out.println(Arrays.deepToString(ans));
     }
 }
 
