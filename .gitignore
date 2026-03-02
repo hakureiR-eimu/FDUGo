@@ -9,3 +9,6 @@ build/
 out
 
 复试
+
+.idea
+.vscode
